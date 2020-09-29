@@ -75,6 +75,47 @@ function bubble_chart(index){
     });
 };
 
+function gauge(index){
+    d3.json("samples.json").then((data)=>{
+        //Find Wash Frequency
+        var wash_data = data.metadata[index].wfreq
+
+        //Guage parameters
+        var gauge_data = [
+            {
+                domain:{x:[0,1],y:[0,1]},
+                value: wash_data,
+                title: { text: "Belly Button Washing Frequency,<br>Washes per Week"},
+                type:"indicator",
+                mode:"guage+number+delta",
+                gauge: {
+                    axis: { range: [null, 9] },
+                    steps: [
+                      { range: [0, 1], color: "white" },
+                      { range: [1, 2], color: "black" },
+                      { range: [2, 3], color: "white" },
+                      { range: [3, 4], color: "black" },
+                      { range: [4, 5], color: "white" },
+                      { range: [5, 6], color: "black" },
+                      { range: [6, 7], color: "white" },
+                      { range: [7, 8], color: "black" },
+                      { range: [8, 9], color: "white" },
+                    ],
+                  }                
+        }
+    ];
+
+        var layout ={
+            width:600,
+            height: 500,
+            margin: {t:0,b:0}
+        };
+
+        Plotly.newPlot("gauge",gauge_data,layout);
+
+    });
+};
+
 
 // Filling in demographic info
 function demo_info(index){
@@ -115,10 +156,11 @@ function drop_down(){
 
 function optionChanged(drop_down_value){
     d3.json("samples.json").then((data)=>{
-        var index_results = data.names.findIndex(name => name === drop_down_value)
-        bar_plot(index_results)
-        bubble_chart(index_results)
-        demo_info(index_results)
+        var index_results = data.names.findIndex(name => name === drop_down_value);
+        bar_plot(index_results);
+        bubble_chart(index_results);
+        demo_info(index_results);
+        gauge(index_results);
     });
 };
 
@@ -127,4 +169,5 @@ function optionChanged(drop_down_value){
 bar_plot(0);
 bubble_chart(0);
 demo_info(0);
+gauge(0);
 drop_down();
