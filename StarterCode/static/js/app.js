@@ -9,11 +9,16 @@ function bar_plot(index){
         var y_hover=data.samples.map(row => row.otu_labels);
         
         y_data = y_data[index].slice(0,10);
+        y_data = y_data.map(number => `OTU ${number}`)
+        y_data.reverse();
+
+        x_data = x_data[index].slice(0,10);
+        x_data.reverse();
 
         // creating bar chart trace
         var trace1 = {
-            x: x_data[index],
-            y: y_data.map(number => `OTU ${number}`),
+            x: x_data,
+            y: y_data,
             type: 'bar',
             orientation: 'h',
             mode: 'markers',
