@@ -100,10 +100,19 @@ d3.json("samples.json").then((data)=>{
         });
     };
 
+    function optionchanged(){
+        // select drop down option value
+        var dropdownMenu=d3.select("#selDataset");
+        var dataset = dropdownMenu.node().value;
+        return data.names.indexOf(dataset);
+    };
+
     // calling functions
+    d3.selectAll("body").on("change",optionchanged);
     bar_plot(0);
     bubble_chart(0);
     demo_info(0);
     drop_down();
+    optionchanged();
 
 });
