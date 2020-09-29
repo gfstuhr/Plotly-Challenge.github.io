@@ -8,7 +8,6 @@ d3.json("samples.json").then((data)=>{
         var x_data=data.samples.map(row => row.sample_values);
         var y_data=data.samples.map(row => row.otu_ids);
         var y_hover=data.samples.map(row => row.otu_labels);
-        // console.log(top_10);
         
         // creating bar chart trace
         var trace1 = {
@@ -70,8 +69,29 @@ d3.json("samples.json").then((data)=>{
         Plotly.newPlot("bubble",bubble_data,layout);
     };
 
-    // calling plot functions
+    // Filling in demographic info
+    function demo_info(){
+        var id = data.metadata[0].id;
+        var ethnicity = data.metadata[0].ethnicity;
+        var gender = data.metadata[0].gender;
+        var age = data.metadata[0].age;
+        var location = data.metadata[0].location;
+        var bbtype = data.metadata[0].bbtype;
+        var wfreq = data.metadata[0].wfreq;
+
+        var panel=d3.select("#sample-metadata")
+            .append("p").text(`id: ${id}`)
+            .append("p").text(`ethnicity: ${ethnicity}`)
+            .append("p").text(`gender: ${gender}`)
+            .append("p").text(`age: ${age}`)
+            .append("p").text(`location: ${location}`)
+            .append("p").text(`bbtype: ${bbtype}`)
+            .append("p").text(`wfreq: ${wfreq}`)
+    };
+
+    // calling functions
     bar_plot();
     bubble_chart();
+    demo_info();
 
 });
