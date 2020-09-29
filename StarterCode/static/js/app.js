@@ -1,18 +1,19 @@
-d3.json("samples.json").then((data)=>{
     // creating bar plot
-    function bar_plot(index){
-        // var top_10=data.sort((a,b)=>b.samples[0].sample_values-a.samples[0].sample_values);
-        // top_10=top_10.slice(0,10);
+function bar_plot(index){
+    d3.json("samples.json").then((data)=>{
+
         
         // creating data arrays
         var x_data=data.samples.map(row => row.sample_values);
         var y_data=data.samples.map(row => row.otu_ids);
         var y_hover=data.samples.map(row => row.otu_labels);
         
+        y_data = y_data[index].slice(0,10);
+
         // creating bar chart trace
         var trace1 = {
             x: x_data[index],
-            y: y_data[index],
+            y: y_data.map(number => `OTU ${number}`),
             type: 'bar',
             orientation: 'h',
             mode: 'markers',
@@ -25,18 +26,17 @@ d3.json("samples.json").then((data)=>{
 
         // plot layout
         var layout = {
-            yaxis:{
-                tickprefix: "OTU "
-            }
         };
 
         // creating plot
         Plotly.newPlot("bar",plot_data,layout);
-    };
+    });
+};
 
     // creating bubble_chart
-    function bubble_chart(index){
-        
+function bubble_chart(index){
+    d3.json("samples.json").then((data)=>{
+
         // creating data arrays
         var x_data=data.samples.map(row => row.otu_ids);
         var y_data = data.samples.map(row => row.sample_values);
@@ -67,10 +67,14 @@ d3.json("samples.json").then((data)=>{
 
         // creating bubble chart
         Plotly.newPlot("bubble",bubble_data,layout);
-    };
+    });
+};
 
-    // Filling in demographic info
-    function demo_info(index){
+
+// Filling in demographic info
+function demo_info(index){
+    d3.json("samples.json").then((data)=>{
+        // creating bubble chart
         var id = data.metadata[index].id;
         var ethnicity = data.metadata[index].ethnicity;
         var gender = data.metadata[index].gender;
@@ -80,6 +84,7 @@ d3.json("samples.json").then((data)=>{
         var wfreq = data.metadata[index].wfreq;
 
         var panel=d3.select("#sample-metadata")
+            .html("")
             .append("p").text(`id: ${id}`)
             .append("p").text(`ethnicity: ${ethnicity}`)
             .append("p").text(`gender: ${gender}`)
@@ -87,9 +92,11 @@ d3.json("samples.json").then((data)=>{
             .append("p").text(`location: ${location}`)
             .append("p").text(`bbtype: ${bbtype}`)
             .append("p").text(`wfreq: ${wfreq}`)
-    };
-    function drop_down(){
-        // selecting drop_down
+    });
+};
+function drop_down(){
+    d3.json("samples.json").then((data)=>{
+// selecting drop_down
         var dropdownMenu=d3.select("#selDataset");
         // Inserting names into drop down menu
         names = data.names
@@ -98,21 +105,21 @@ d3.json("samples.json").then((data)=>{
             currentname.text(name);
             currentname.property("value",name);
         });
-    };
+    });
+};
 
-    function optionchanged(){
-        // select drop down option value
-        var dropdownMenu=d3.select("#selDataset");
-        var dataset = dropdownMenu.node().value;
-        return data.names.indexOf(dataset);
-    };
+function optionChanged(drop_down_value){
+    d3.json("samples.json").then((data)=>{
+        var index_results = data.names.findIndex(name => name === drop_down_value)
+        bar_plot(index_results)
+        bubble_chart(index_results)
+        demo_info(index_results)
+    });
+};
 
-    // calling functions
-    d3.selectAll("body").on("change",optionchanged);
-    bar_plot(0);
-    bubble_chart(0);
-    demo_info(0);
-    drop_down();
-    optionchanged();
-
-});
+// calling functions
+// d3.selectAll("body").on("change",optionChanged);
+bar_plot(0);
+bubble_chart(0);
+demo_info(0);
+drop_down();
