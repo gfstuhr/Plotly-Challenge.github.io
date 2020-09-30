@@ -141,7 +141,7 @@ function optionChanged(drop_down_value){
         bar_plot(index_results);
         bubble_chart(index_results);
         demo_info(index_results);
-        gauge(index_results);
+        // gauge(index_results);
     });
 };
 
@@ -150,5 +150,5 @@ function optionChanged(drop_down_value){
 bar_plot(0);
 bubble_chart(0);
 demo_info(0);
-gauge(0);
+// gauge(0);
 drop_down();
