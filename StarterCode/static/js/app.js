@@ -75,46 +75,27 @@ function bubble_chart(index){
     });
 };
 
-function gauge(index){
-    d3.json("samples.json").then((data)=>{
-        //Find Wash Frequency
-        var wash_data = data.metadata[index].wfreq
+// function gauge(index){
+//     d3.json("samples.json").then((data)=>{
+//         //Find Wash Frequency
+//         var wash_data = data.metadata[index].wfreq
 
-        //Guage parameters
-        var gauge_data = [
-            {
-                domain:{x:[0,1],y:[0,1]},
-                value: wash_data,
-                title: { text: "Belly Button Washing Frequency,<br>Washes per Week"},
-                type:"indicator",
-                mode:"guage+number+delta",
-                gauge: {
-                    axis: { range: [null, 9] },
-                    steps: [
-                      { range: [0, 1], color: "white" },
-                      { range: [1, 2], color: "black" },
-                      { range: [2, 3], color: "white" },
-                      { range: [3, 4], color: "black" },
-                      { range: [4, 5], color: "white" },
-                      { range: [5, 6], color: "black" },
-                      { range: [6, 7], color: "white" },
-                      { range: [7, 8], color: "black" },
-                      { range: [8, 9], color: "white" },
-                    ],
-                  }                
-        }
-    ];
+//         //Guage parameters
+//         var data = [
+//             {
+//                 domain: { x: [0, 1], y: [0, 1] },
+//                 value: 270,
+//                 title: { text: "Belly Button Washing Frequency,<br>Washes per Week"},
+//                 type: "indicator",
+//                 mode: "gauge+number+delta"
+//             }
+//         ];
+    
+//     var layout = { width: 600, height: 500, margin: { t: 0, b: 0 } };
+//     Plotly.newPlot('gauge', data, layout);
 
-        var layout ={
-            width:600,
-            height: 500,
-            margin: {t:0,b:0}
-        };
-
-        Plotly.newPlot("gauge",gauge_data,layout);
-
-    });
-};
+//     });
+// };
 
 
 // Filling in demographic info
