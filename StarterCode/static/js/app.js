@@ -146,7 +146,6 @@ function optionChanged(drop_down_value){
 };
 
 // calling functions
-// d3.selectAll("body").on("change",optionChanged);
 bar_plot(0);
 bubble_chart(0);
 demo_info(0);
